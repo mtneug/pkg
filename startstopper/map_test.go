@@ -75,9 +75,9 @@ func (s *InMemoryMapTestSuite) TestLen() {
 	s.ss2.On("Start", s.ctx).Return(nil).Once()
 
 	require.Equal(s.T(), 0, s.m.Len())
-	s.m.AddAndStart(s.ctx, "test1", s.ss1)
+	_, _ = s.m.AddAndStart(s.ctx, "test1", s.ss1)
 	require.Equal(s.T(), 1, s.m.Len())
-	s.m.AddAndStart(s.ctx, "test2", s.ss2)
+	_, _ = s.m.AddAndStart(s.ctx, "test2", s.ss2)
 	require.Equal(s.T(), 2, s.m.Len())
 
 	s.ss1.AssertExpectations(s.T())
@@ -130,7 +130,7 @@ func (s *InMemoryMapTestSuite) TestDeleteAndStopNotInserted() {
 func (s *InMemoryMapTestSuite) TestDeleteAndStopInserted() {
 	s.ss1.On("Start", s.ctx).Return(nil).Once()
 	s.ss1.On("Stop", s.ctx).Return(nil).Once()
-	s.m.AddAndStart(s.ctx, "test", s.ss1)
+	_, _ = s.m.AddAndStart(s.ctx, "test", s.ss1)
 
 	changed, err := s.m.DeleteAndStop(s.ctx, "test")
 	require.NoError(s.T(), err)
@@ -146,7 +146,7 @@ func (s *InMemoryMapTestSuite) TestDeleteAndStopInserted() {
 func (s *InMemoryMapTestSuite) TestDeleteAndStopInsertedErrStart() {
 	s.ss1.On("Start", s.ctx).Return(nil).Once()
 	s.ss1.On("Stop", s.ctx).Return(s.err).Once()
-	s.m.AddAndStart(s.ctx, "test", s.ss1)
+	_, _ = s.m.AddAndStart(s.ctx, "test", s.ss1)
 
 	changed, err := s.m.DeleteAndStop(s.ctx, "test")
 	require.EqualError(s.T(), err, s.err.Error())
@@ -191,7 +191,7 @@ func (s *InMemoryMapTestSuite) TestUpdateAndRestartInserted() {
 	s.ss1.On("Start", s.ctx).Return(nil).Once()
 	s.ss1.On("Stop", s.ctx).Return(nil).Once()
 	s.ss2.On("Start", s.ctx).Return(nil).Once()
-	s.m.AddAndStart(s.ctx, "test", s.ss1)
+	_, _ = s.m.AddAndStart(s.ctx, "test", s.ss1)
 
 	changed, err := s.m.UpdateAndRestart(s.ctx, "test", s.ss2)
 	require.NoError(s.T(), err)
@@ -208,7 +208,7 @@ func (s *InMemoryMapTestSuite) TestUpdateAndRestartInserted() {
 func (s *InMemoryMapTestSuite) TestUpdateAndRestartInsertedErrStop() {
 	s.ss1.On("Start", s.ctx).Return(nil).Once()
 	s.ss1.On("Stop", s.ctx).Return(s.err).Once()
-	s.m.AddAndStart(s.ctx, "test", s.ss1)
+	_, _ = s.m.AddAndStart(s.ctx, "test", s.ss1)
 
 	changed, err := s.m.UpdateAndRestart(s.ctx, "test", s.ss2)
 	require.EqualError(s.T(), s.err, err.Error())
@@ -226,7 +226,7 @@ func (s *InMemoryMapTestSuite) TestUpdateAndRestartInsertedErrStart() {
 	s.ss1.On("Start", s.ctx).Return(nil).Once()
 	s.ss1.On("Stop", s.ctx).Return(nil).Once()
 	s.ss2.On("Start", s.ctx).Return(s.err).Once()
-	s.m.AddAndStart(s.ctx, "test", s.ss1)
+	_, _ = s.m.AddAndStart(s.ctx, "test", s.ss1)
 
 	changed, err := s.m.UpdateAndRestart(s.ctx, "test", s.ss2)
 	require.EqualError(s.T(), s.err, err.Error())
@@ -243,8 +243,8 @@ func (s *InMemoryMapTestSuite) TestUpdateAndRestartInsertedErrStart() {
 func (s *InMemoryMapTestSuite) TestForEach() {
 	s.ss1.On("Start", s.ctx).Return(nil).Once()
 	s.ss2.On("Start", s.ctx).Return(nil).Once()
-	s.m.AddAndStart(s.ctx, "test1", s.ss1)
-	s.m.AddAndStart(s.ctx, "test2", s.ss2)
+	_, _ = s.m.AddAndStart(s.ctx, "test1", s.ss1)
+	_, _ = s.m.AddAndStart(s.ctx, "test2", s.ss2)
 
 	called := 0
 	notSeen := map[string]*MockStartStopper{
