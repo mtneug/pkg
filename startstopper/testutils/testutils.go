@@ -78,13 +78,13 @@ type MockMap struct {
 
 // AddAndStart implements interface.
 func (m *MockMap) AddAndStart(ctx context.Context, key string, ss startstopper.StartStopper) (bool, error) {
-	args := m.Called(ctx, key, ss)
+	args := m.Called(ctx, key)
 	return args.Bool(0), args.Error(1)
 }
 
 // UpdateAndRestart implements interface.
 func (m *MockMap) UpdateAndRestart(ctx context.Context, key string, ss startstopper.StartStopper) (bool, error) {
-	args := m.Called(ctx, key, ss)
+	args := m.Called(ctx, key)
 	return args.Bool(0), args.Error(1)
 }
 
@@ -102,7 +102,7 @@ func (m *MockMap) Get(key string) (startstopper.StartStopper, bool) {
 
 // ForEach implements interface.
 func (m *MockMap) ForEach(f func(key string, ss startstopper.StartStopper)) {
-	m.Called(f)
+	m.Called()
 }
 
 // Len implements interface.
