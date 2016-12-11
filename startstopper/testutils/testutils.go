@@ -23,6 +23,7 @@ package testutils
 
 import (
 	"context"
+	"sync"
 
 	"github.com/mtneug/pkg/startstopper"
 	"github.com/stretchr/testify/mock"
@@ -72,6 +73,7 @@ func (m *MockRunner) Run(ctx context.Context, stopChan <-chan struct{}) error {
 // MockMap is a mocked Map.
 type MockMap struct {
 	mock.Mock
+	sync.RWMutex
 }
 
 // AddAndStart implements interface.
