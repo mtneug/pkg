@@ -9,6 +9,7 @@ are to small for an own repository.
 
 ## Packages
 
+- `ulid`: Simple global adapter for `github.com/oklog/ulid`.
 - `version`: Handle information about things. Inspired by `k8s.io/kubernetes/pkg/version`.
 
 ## License
