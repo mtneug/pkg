@@ -35,4 +35,5 @@ before_install:
   - gometalinter --install
 
 script:
+  - go install ./...
   - make ci
