@@ -24,6 +24,7 @@ package testutils
 import (
 	"context"
 
+	"github.com/mtneug/pkg/startstopper"
 	"github.com/stretchr/testify/mock"
 )
 
@@ -66,4 +67,44 @@ func (m *MockRunner) Run(ctx context.Context, stopChan <-chan struct{}) error {
 	args := m.Called(ctx)
 	<-stopChan
 	return args.Error(0)
+}
+
+// MockMap is a mocked Map.
+type MockMap struct {
+	mock.Mock
+}
+
+// AddAndStart implements interface.
+func (m *MockMap) AddAndStart(ctx context.Context, key string, ss startstopper.StartStopper) (bool, error) {
+	args := m.Called(ctx, key, ss)
+	return args.Bool(0), args.Error(1)
+}
+
+// UpdateAndRestart implements interface.
+func (m *MockMap) UpdateAndRestart(ctx context.Context, key string, ss startstopper.StartStopper) (bool, error) {
+	args := m.Called(ctx, key, ss)
+	return args.Bool(0), args.Error(1)
+}
+
+// DeleteAndStop implements interface.
+func (m *MockMap) DeleteAndStop(ctx context.Context, key string) (bool, error) {
+	args := m.Called(ctx, key)
+	return args.Bool(0), args.Error(1)
+}
+
+// Get implements interface.
+func (m *MockMap) Get(key string) (startstopper.StartStopper, bool) {
+	args := m.Called(key)
+	return args.Get(0).(startstopper.StartStopper), args.Bool(1)
+}
+
+// ForEach implements interface.
+func (m *MockMap) ForEach(f func(key string, ss startstopper.StartStopper)) {
+	m.Called(f)
+}
+
+// Len implements interface.
+func (m *MockMap) Len() int {
+	args := m.Called()
+	return args.Int(0)
 }

@@ -33,6 +33,7 @@ import (
 
 type InMemoryMapTestSuite struct {
 	suite.Suite
+
 	ctx context.Context
 	err error
 	ss1 *testutils.MockStartStopper
