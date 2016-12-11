@@ -27,19 +27,9 @@ import (
 	"time"
 
 	"github.com/mtneug/pkg/startstopper"
-	"github.com/stretchr/testify/mock"
+	"github.com/mtneug/pkg/startstopper/testutils"
 	"github.com/stretchr/testify/require"
 )
-
-type MockRunner struct {
-	mock.Mock
-}
-
-func (m *MockRunner) Run(ctx context.Context, stopChan <-chan struct{}) error {
-	args := m.Called()
-	<-stopChan
-	return args.Error(0)
-}
 
 func TestNewGo(t *testing.T) {
 	t.Parallel()
@@ -47,8 +37,8 @@ func TestNewGo(t *testing.T) {
 	ctx := context.Background()
 
 	rErr := errors.New("Test error")
-	r := &MockRunner{}
-	r.On("Run").Return(rErr).Once()
+	r := &testutils.MockRunner{}
+	r.On("Run", ctx).Return(rErr).Once()
 
 	ss := startstopper.NewGo(r)
 	require.NotNil(t, ss)

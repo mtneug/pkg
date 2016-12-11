@@ -26,47 +26,25 @@ import (
 	"testing"
 
 	"github.com/mtneug/pkg/startstopper"
-	"github.com/stretchr/testify/mock"
+	"github.com/mtneug/pkg/startstopper/testutils"
 	"github.com/stretchr/testify/require"
 	"github.com/stretchr/testify/suite"
 )
-
-type MockStartStopper struct {
-	mock.Mock
-}
-
-func (m *MockStartStopper) Start(ctx context.Context) error {
-	args := m.Called(ctx)
-	return args.Error(0)
-}
-
-func (m *MockStartStopper) Stop(ctx context.Context) error {
-	args := m.Called(ctx)
-	return args.Error(0)
-}
-
-func (m *MockStartStopper) Done() <-chan struct{} {
-	panic("Done should not be called")
-}
-
-func (m *MockStartStopper) Err(ctx context.Context) error {
-	panic("Done should not be called")
-}
 
 type InMemoryMapTestSuite struct {
 	suite.Suite
 	ctx context.Context
 	err error
-	ss1 *MockStartStopper
-	ss2 *MockStartStopper
+	ss1 *testutils.MockStartStopper
+	ss2 *testutils.MockStartStopper
 	m   startstopper.Map
 }
 
 func (s *InMemoryMapTestSuite) SetupTest() {
 	s.ctx = context.Background()
 	s.err = errors.New("test error")
-	s.ss1 = &MockStartStopper{}
-	s.ss2 = &MockStartStopper{}
+	s.ss1 = &testutils.MockStartStopper{}
+	s.ss2 = &testutils.MockStartStopper{}
 	s.m = startstopper.NewInMemoryMap()
 }
 
@@ -247,7 +225,7 @@ func (s *InMemoryMapTestSuite) TestForEach() {
 	_, _ = s.m.AddAndStart(s.ctx, "test2", s.ss2)
 
 	called := 0
-	notSeen := map[string]*MockStartStopper{
+	notSeen := map[string]*testutils.MockStartStopper{
 		"test1": s.ss1,
 		"test2": s.ss2,
 	}
