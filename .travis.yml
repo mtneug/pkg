@@ -33,9 +33,9 @@ matrix:
 before_install:
   - go get -v github.com/alecthomas/gometalinter
   - gometalinter --install
+  - go get -d -t ./...
 
 script:
-  - go install ./...
   - make ci
 
 after_success:
