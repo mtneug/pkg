@@ -9,6 +9,7 @@ are to small for an own repository.
 
 ## Packages
 
+- `reducer`: Reducing slices to scalar values.
 - `startstopper`: Common code for objects that can be started and stopped.
 - `ulid`: Simple global adapter for `github.com/oklog/ulid`.
 - `version`: Handle information about things. Inspired by `k8s.io/kubernetes/pkg/version`.
