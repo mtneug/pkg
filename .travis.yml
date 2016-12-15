@@ -23,10 +23,11 @@ dist: trusty
 sudo: required
 
 go:
-  - tip
   - 1.7
+  - tip
 
 matrix:
+  fast_finish: true
   allow_failures:
     - go: tip
 
