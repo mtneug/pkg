@@ -49,7 +49,7 @@ func TestGroup(t *testing.T) {
 		ss.On("Stop", ctx).Return(nil).Once()
 	}
 
-	group := startstopper.New(sss)
+	group := startstopper.NewGroup(sss)
 	require.NotNil(t, group)
 
 	err := group.Start(ctx)
@@ -94,7 +94,7 @@ func TestGroupStartErr(t *testing.T) {
 		}
 	}
 
-	group := startstopper.New(sss)
+	group := startstopper.NewGroup(sss)
 	require.NotNil(t, group)
 
 	err := group.Start(ctx)
@@ -137,7 +137,7 @@ func TestGroupStopErr(t *testing.T) {
 		}
 	}
 
-	group := startstopper.New(sss)
+	group := startstopper.NewGroup(sss)
 	require.NotNil(t, group)
 
 	err := group.Start(ctx)

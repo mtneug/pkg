@@ -55,7 +55,7 @@ func (g GroupError) Error() string {
 }
 
 // New creates a new group.
-func New(sss []StartStopper) *Group {
+func NewGroup(sss []StartStopper) *Group {
 	group := &Group{sss: sss}
 	group.StartStopper = NewGo(RunnerFunc(group.run))
 	return group
