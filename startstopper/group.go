@@ -33,7 +33,7 @@ type Group struct {
 	sss []StartStopper
 }
 
-// GroupError is the concret error type returned by Group structs. It bundles
+// GroupError is the concrete error type returned by Group structs. It bundles
 // the errors that could be returned by the StartStoppers.
 type GroupError struct {
 	Errors []error
