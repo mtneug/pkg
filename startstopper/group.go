@@ -62,7 +62,14 @@ func NewGroup(sss []StartStopper) *Group {
 }
 
 func (g *Group) run(ctx context.Context, stopChan <-chan struct{}) error {
+	var once sync.Once
 	errorOccured := false
+	setErrorOccured := func() {
+		once.Do(func() {
+			errorOccured = true
+		})
+	}
+
 	groupErr := GroupError{
 		Errors: make([]error, len(g.sss)),
 	}
@@ -70,7 +77,7 @@ func (g *Group) run(ctx context.Context, stopChan <-chan struct{}) error {
 	for i, ss := range g.sss {
 		groupErr.Errors[i] = ss.Start(ctx)
 		if groupErr.Errors[i] != nil {
-			errorOccured = true
+			setErrorOccured()
 		}
 	}
 
@@ -89,7 +96,7 @@ func (g *Group) run(ctx context.Context, stopChan <-chan struct{}) error {
 		go func() {
 			groupErr.Errors[_i] = _ss.Stop(ctx)
 			if groupErr.Errors[_i] != nil {
-				errorOccured = true
+				setErrorOccured()
 			}
 			wg.Done()
 		}()
