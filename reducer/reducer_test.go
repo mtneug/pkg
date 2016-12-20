@@ -138,3 +138,29 @@ func TestAvg(t *testing.T) {
 		require.Equal(t, c.val, val)
 	}
 }
+
+func TestSum(t *testing.T) {
+	t.Parallel()
+
+	testCases := []struct {
+		slice []float64
+		val   float64
+	}{
+		{
+			slice: []float64{1, 2, 3, 4},
+			val:   10,
+		},
+		{
+			slice: []float64{-1, -2, -3, -4},
+			val:   -10,
+		},
+	}
+
+	r := reducer.Sum()
+
+	for _, c := range testCases {
+		val, err := r.Reduce(c.slice)
+		require.NoError(t, err)
+		require.Equal(t, c.val, val)
+	}
+}
