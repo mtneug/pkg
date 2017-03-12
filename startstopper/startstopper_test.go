@@ -38,7 +38,7 @@ func TestNewGo(t *testing.T) {
 
 	rErr := errors.New("Test error")
 	r := &testutils.MockRunner{}
-	r.On("Run", ctx).Return(rErr).Once()
+	r.On("Run", ctx).Return(rErr).Twice()
 
 	ss := startstopper.NewGo(r)
 	require.NotNil(t, ss)
@@ -59,6 +59,11 @@ func TestNewGo(t *testing.T) {
 
 	err = ss.Stop(ctx)
 	require.NoError(t, err)
+
+	ss = startstopper.NewGo(r)
+	_ = ss.Start(ctx)
+	err = ss.Stop(ctx2)
+	require.EqualError(t, err, "context canceled")
 
 	select {
 	case <-ss.Done():
