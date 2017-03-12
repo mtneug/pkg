@@ -47,6 +47,7 @@ func TestGroup(t *testing.T) {
 		ss := ss.(*testutils.MockStartStopper)
 		ss.On("Start", ctx).Return(nil).Once()
 		ss.On("Stop", ctx).Return(nil).Once()
+		ss.On("Err", ctx).Return(nil).Once()
 	}
 
 	group := startstopper.NewGroup(sss)
@@ -134,6 +135,7 @@ func TestGroupStopErr(t *testing.T) {
 			ss.On("Stop", ctx).Return(err).Once()
 		} else {
 			ss.On("Stop", ctx).Return(nil).Once()
+			ss.On("Err", ctx).Return(nil).Once()
 		}
 	}
 
